@@ -1,0 +1,27 @@
+*{
+    margin: 10px;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #b5ca8d;
+}
+p {
+    font-size: 24px;
+}
+ul li {
+    list-style: none;
+}
+ul#list {
+    padding-inline-start: 0;
+    padding-top: 20px;
+}
+li.list{
+    font-size: 24px;
+    font-weight: 300;
+    text-align: center;
+    background-color: #9ab986;
+    min-height: 50px;
+    border-radius: 10px;
+}
+.crossed {
+    text-decoration: line-through;
+    background-color: #425237 !important;
+  }

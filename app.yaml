@@ -1,0 +1,4 @@
+runtime: nodejs
+handlers:
+  - url: /(.+)
+    script: index
