@@ -22,12 +22,15 @@ app.get('/', async (req, res) => {
 const filePath = path.join('public', 'json', '/crossedItems.json');
 async function saveDataToFile() {
     try {
-      // Ensure the directory exists before writing the file
-      await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+      // Convert the crossedItems array to a JSON string
+      const jsonData = JSON.stringify(crossedItems, null, 2);
   
-      await fs.promises.writeFile(filePath, JSON.stringify(crossedItems, null, 2), 'utf8');
-    } catch (err) {
-      console.error('Error saving data to file:', err);
+      // Write the JSON data to the file
+      await fs.writeFile(filePath, jsonData, 'utf8');
+  
+      console.log('Data saved to file successfully.');
+    } catch (error) {
+      console.error('Error saving data to file:', error);
     }
   }
 let crossedItems = [];
