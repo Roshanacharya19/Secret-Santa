@@ -62,13 +62,15 @@ app.post('/api/crossed-items/clear', basicAuthMiddleware, async (req, res) => {
 
 // Load data from the file on server start
 async function loadDataFromFile() {
-  try {
-    const data = await readFile(filePath, 'utf8');
-    crossedItems = JSON.parse(data);
-  } catch (err) {
-    // Ignore errors if the file doesn't exist or is invalid
+    try {
+      const data = await readFile(filePath, 'utf8');
+      console.log('Loaded data:', data);
+      crossedItems = JSON.parse(data);
+    } catch (err) {
+      console.error('Error loading data:', err);
+    }
   }
-}
+  
 
 // Save data to the file
 async function saveDataToFile() {
