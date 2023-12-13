@@ -1,51 +1,55 @@
-// Get the list element
-var list = document.getElementById('list');
-
-// Add click event listener to the list
-list.addEventListener('click', function (event) {
-    // Check if the clicked element is an <li> inside the list
-    if (event.target.tagName === 'LI') {
-        // Toggle the 'crossed' class on the clicked element
-        event.target.classList.toggle('crossed');
-
-        // Save the updated list state (crossed items) to local storage
-        saveListState();
-    }
+// Load crossed items from the server on page load
+document.addEventListener('DOMContentLoaded', function () {
+  loadCrossedItems();
 });
 
-// Function to save the list state to local storage
-function saveListState() {
-    // Get all crossed items
-    var crossedItems = document.querySelectorAll('.crossed');
-    
-    // Create an array to store the crossed item names
-    var crossedNames = [];
+document.getElementById('secretSantaForm').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent form submission
 
-    // Iterate through crossed items and add their text content to the array
-    crossedItems.forEach(function (item) {
-        crossedNames.push(item.textContent);
-    });
+  // Get selected person from the form
+  var selectedPerson = document.getElementById('person').value;
 
-    // Convert the array to a JSON string and save it to local storage
-    localStorage.setItem('crossedNames', JSON.stringify(crossedNames));
+  // Toggle the "crossed" class for the matching item
+  var santaListItems = document.querySelectorAll('#santaList li');
+  for (var i = 0; i < santaListItems.length; i++) {
+      if (santaListItems[i].textContent.trim() === selectedPerson) {
+          santaListItems[i].classList.toggle('crossed');
+
+          // Update crossed items on the server
+          updateCrossedItems(selectedPerson);
+          break;
+      }
+  }
+});
+
+// Helper function to update crossed items on the server
+function updateCrossedItems(item) {
+  fetch('/api/crossed-items', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ item: item })
+  })
+  .then(response => response.json())
+  .then(crossedItems => console.log('Crossed items:', crossedItems))
+  .catch(error => console.error('Error updating crossed items:', error));
 }
 
-// Function to load the list state from local storage
-function loadListState() {
-    // Get the crossed item names from local storage
-    var crossedNames = localStorage.getItem('crossedNames');
-
-    // If there are crossed names, iterate through them and cross out the corresponding items in the list
-    if (crossedNames) {
-        crossedNames = JSON.parse(crossedNames);
-        crossedNames.forEach(function (name) {
-            var crossedItem = document.querySelector('.list li:contains("' + name + '")');
-            if (crossedItem) {
-                crossedItem.classList.add('crossed');
-            }
-        });
-    }
+// Helper function to load crossed items from the server
+function loadCrossedItems() {
+  fetch('/api/crossed-items')
+  .then(response => response.json())
+  .then(crossedItems => applyCrossedItems(crossedItems))
+  .catch(error => console.error('Error loading crossed items:', error));
 }
 
-// Call the loadListState function when the page is loaded to restore the state
-window.addEventListener('load', loadListState);
+// Helper function to apply crossed items to the list
+function applyCrossedItems(crossedItems) {
+  var santaListItems = document.querySelectorAll('#santaList li');
+  for (var i = 0; i < santaListItems.length; i++) {
+      if (crossedItems.includes(santaListItems[i].textContent.trim())) {
+          santaListItems[i].classList.add('crossed');
+      }
+  }
+}

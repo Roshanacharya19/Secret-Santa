@@ -24,4 +24,11 @@ li.list{
 .crossed {
     text-decoration: line-through;
     background-color: #425237 !important;
-  }
+}
+
+select {
+    border-radius: 10px;
+}
+input {
+    border-radius: 10px;
+}

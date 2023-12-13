@@ -12,9 +12,24 @@
 </head>
 <body>
     <h1>Secret Santa</h1>
-    <p>Please Anonymously Cross your person from the list.</p>
+    <p>Please Anonymously select your person from the list.</p>
+    <form id="secretSantaForm">
+        <label for="person">Choose your giftee for the list:</label>
+        <select id="person" name="person">
+          <option value="Rachu">Rachu</option>
+          <option value="Roshan">Roshan</option>
+          <option value="Rojee">Rojee</option>
+          <option value="Bigina">Bigina</option>
+          <option value="Krishu">Krishu</option>
+          <option value="Binu">Binu</option>
+          <option value="Ashish">Ashish</option>
+          <option value="Bikash">Bikash</option>
+          <option value="Erika">Erika</option>
+        </select>
+        <input type="submit">
+      </form>
     <section class="list">
-        <ul id="list"> 
+        <ul id="santaList"> 
             <li class="list">Roshan</li>
             <li class="list">Rachu</li>
             <li class="list">Rojee</li>
@@ -27,5 +42,6 @@
         </ul>
     </section>
     <script src="js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>
