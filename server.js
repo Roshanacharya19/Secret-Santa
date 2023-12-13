@@ -80,7 +80,11 @@ async function saveDataToFile() {
 }
 
 // Load data from the file on server start
-loadDataFromFile().then(() => {
-  // Start the server after loading data
-  app.listen(process.env.PORT || 3000, () => console.log('Listening on port 3000'));
-});
+loadDataFromFile()
+  .then(() => {
+    console.log('Data loaded successfully.');
+    // Start the server after loading data
+    app.listen(process.env.PORT || 3000, () => console.log('Listening on port 3000'));
+  })
+  .catch(error => console.error('Error loading data:', error));
+
