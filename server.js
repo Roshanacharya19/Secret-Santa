@@ -19,8 +19,17 @@ app.get('/', async (req, res) => {
 });
 
 // Store crossed-out items in a file on the server
-const filePath = path.join(__dirname, '/json/crossedItems.json');
-
+const filePath = path.join('public', 'json', '/crossedItems.json');
+async function saveDataToFile() {
+    try {
+      // Ensure the directory exists before writing the file
+      await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+  
+      await fs.promises.writeFile(filePath, JSON.stringify(crossedItems, null, 2), 'utf8');
+    } catch (err) {
+      console.error('Error saving data to file:', err);
+    }
+  }
 let crossedItems = [];
 
 const correctPassword = 'abcd1234z';
