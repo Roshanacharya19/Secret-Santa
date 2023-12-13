@@ -32,3 +32,6 @@ select {
 input {
     border-radius: 10px;
 }
+button#clearCrossed {
+    border-radius: 10px;
+}

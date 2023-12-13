@@ -35,6 +35,10 @@ app.route('/api/crossed-items')
          crossedItems.push(item);
       }
       res.json(crossedItems);
-   });
+   })
+   .delete((req, res) => {
+    crossedItems = []; // Clear crossed items
+    res.json(crossedItems);
+    });
 
 app.listen(process.env.PORT || 3000, () => console.log('listening on port 3000'));

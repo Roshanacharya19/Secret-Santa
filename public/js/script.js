@@ -22,6 +22,17 @@ document.getElementById('secretSantaForm').addEventListener('submit', function (
   }
 });
 
+document.getElementById('clearCrossed').addEventListener('click', function () {
+  // Clear crossed items on the server
+  clearCrossedItems();
+
+  // Clear the "crossed" class from all list items
+  var santaListItems = document.querySelectorAll('#santaList li');
+  santaListItems.forEach(function (item) {
+      item.classList.remove('crossed');
+  });
+});
+
 // Helper function to update crossed items on the server
 function updateCrossedItems(item) {
   fetch('/api/crossed-items', {
@@ -52,4 +63,12 @@ function applyCrossedItems(crossedItems) {
           santaListItems[i].classList.add('crossed');
       }
   }
+}
+function clearCrossedItems() {
+  fetch('/api/crossed-items', {
+      method: 'DELETE'
+  })
+  .then(response => response.json())
+  .then(crossedItems => console.log('Crossed items cleared'))
+  .catch(error => console.error('Error clearing crossed items:', error));
 }
