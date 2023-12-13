@@ -64,11 +64,27 @@ function applyCrossedItems(crossedItems) {
       }
   }
 }
+
+// Helper function to clear crossed items on the server
 function clearCrossedItems() {
-  fetch('/api/crossed-items', {
-      method: 'DELETE'
+  fetch('/api/crossed-items/clear', {
+      method: 'POST',
   })
   .then(response => response.json())
-  .then(crossedItems => console.log('Crossed items cleared'))
+  .then(data => {
+      console.log('Server response:', data);
+
+      if (data.success) {
+          console.log(data.message);
+          // Optionally, you can update the UI to reflect the cleared items
+          // For example, remove the 'crossed' class from the list items
+          var santaListItems = document.querySelectorAll('#santaList li');
+          santaListItems.forEach(function (item) {
+              item.classList.remove('crossed');
+          });
+      } else {
+          console.error(data.message);
+      }
+  })
   .catch(error => console.error('Error clearing crossed items:', error));
 }
